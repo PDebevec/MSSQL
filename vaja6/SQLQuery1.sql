@@ -32,5 +32,44 @@ where ListPrice = (select ListPrice from SalesLT.Product where name = 'Touring T
 --isto z join
 select p.ListPrice from SalesLT.Product p join SalesLT.Product pr on p.ListPrice = pr.ListPrice where pr.Name = 'Touring Tire Tube'
 
---operator in, not in, any, all, exsists
+--operator in, not in, any, all, exists
+--izpiši vsa imena produktov v kategoriji 'Wheels'
+select p.Name from SalesLT.Product p
+where p.ProductCategoryID in (select ProductCategoryID from SalesLT.ProductCategory where Name = 'Wheels')
+--not in 'Wheels'
+select p.Name from SalesLT.Product p
+where p.ProductCategoryID not in (select ProductCategoryID from SalesLT.ProductCategory where Name = 'Wheels')
 
+--izeri imena produktov kjer je cena veèja od minimalne cene v kategoriji 14
+select Name from SalesLT.Product where ListPrice >= (
+select MIN(p.ListPrice) from SalesLT.Product p
+where ProductCategoryID = 14)
+--any (èe veè podatkov uporabi any za katero koli (podobno or ||))
+select Name from SalesLT.Product where ListPrice >= any (
+select MIN(p.ListPrice) from SalesLT.Product p
+group by p.ProductCategoryID)
+--all (morejo bit veèje od vseh (podobno and $$))
+select Name from SalesLT.Product where ListPrice >= all (
+select MIN(p.ListPrice) from SalesLT.Product p
+group by p.ProductCategoryID)
+--[not] exists (is used to test for the existence of any record in a subquery)[lih obratono]
+--!!null je kurba je treba pazt
+
+--izpiši id naroèila, maximalno ceno na tem naroèilu
+select * from SalesLT.SalesOrderHeader
+select * from SalesLT.udfMaxUnitPrice(71784)
+select h.SalesOrderID, MaxUnitPrice from SalesLT.SalesOrderHeader h cross apply SalesLT.udfMaxUnitPrice(h.SalesOrderID)
+--MaxUnitPrice je iz funkcije/tu ne dela z join ali cross join/
+
+--1. Poišèi ID produkta, ime in ceno produkta (list price) za vsak produkt, kje je cena produkta
+--veèja od povpreène cene na enoto (unit price) za vse produkte, ki smo jih prodali
+select p.ProductID, p.Name, p.ListPrice from SalesLT.Product p
+where p.ListPrice >= (select AVG(d.UnitPrice) from SalesLT.SalesOrderDetail d)
+--2. Poišèi ID produkta, ime in ceno produkta (list price) za vsak produkt, kjer je cena (list) 100$ ali
+--veè in je bil produkt prodan (unit price) za manj kot 100$.
+select * from SalesLT.Product p where p.ListPrice >= 100 and p.ListPrice < (select * from SalesLT.)
+--3. Poišèi ID produkta, ime in ceno produkta (list price) in proizvodno ceno (standardcost) za vsak
+--produkt skupaj s povpreèno ceno, po kateri je bil produkt prodan.
+
+--4. Filtriraj prejšnjo poizvedbo, da bo vsebovala samo produkte, kjer je cena proizvodnje (cost
+--price) veèja od povpreène prodajne cene.
