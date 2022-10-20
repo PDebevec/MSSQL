@@ -67,9 +67,23 @@ select p.ProductID, p.Name, p.ListPrice from SalesLT.Product p
 where p.ListPrice >= (select AVG(d.UnitPrice) from SalesLT.SalesOrderDetail d)
 --2. Poišèi ID produkta, ime in ceno produkta (list price) za vsak produkt, kjer je cena (list) 100$ ali
 --veè in je bil produkt prodan (unit price) za manj kot 100$.
-select * from SalesLT.Product p where p.ListPrice >= 100 and p.ListPrice < (select * from SalesLT.)
+select distinct p.ProductID, Name, p.ListPrice from SalesLT.Product p join SalesLT.SalesOrderDetail d on p.ProductID = d.ProductID
+where p.ListPrice >= 100 and d.UnitPrice < 100
 --3. Poišèi ID produkta, ime in ceno produkta (list price) in proizvodno ceno (standardcost) za vsak
 --produkt skupaj s povpreèno ceno, po kateri je bil produkt prodan.
-
+select p.ProductID, AVG(d.UnitPrice) from SalesLT.Product p
+join SalesLT.SalesOrderDetail d on p.ProductID = d.ProductID
+group by p.ProductID
 --4. Filtriraj prejšnjo poizvedbo, da bo vsebovala samo produkte, kjer je cena proizvodnje (cost
---price) veèja od povpreène prodajne cene.
+--price) veèja od povpreène prodajne cene.select p.ProductID, AVG(d.UnitPrice), p.ListPrice from SalesLT.Product p
+join SalesLT.SalesOrderDetail d on p.ProductID = d.ProductID
+where p.StandardCost > AVG(d.UnitPrice)
+group by p.ProductID
+order by p.StandardCost
+--5. Poišèi ID naroèila, ID stranke, Ime in priimek stranke in znesek dolga za vsa naroèila v
+--SalesLT.SalesOrderHeader s pomoèjo funkcije dbo.ufnGetCustomerInformation
+select h.SalesOrderID, h.CustomerID, i.FirstName from SalesLT.SalesOrderHeader h
+cross apply dbo.ufnGetCustomerInformation(h.CustomerID) i
+order by h.SalesOrderID
+--6. Poišèi ID stranke, Ime in priimek stranke, naslov in mesto iz tabele SalesLT.Address in iz
+--tabele SalesLT.CustomerAddress s pomoèjo funkcije dbo.ufnGetCustomerInformation
