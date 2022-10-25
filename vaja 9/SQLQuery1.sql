@@ -32,9 +32,9 @@ select * from dbo.MyEmployees
 --poseben vrednosti izpeljani atributi --compute, default, rowversions
 create table T1
 ( st1 as 'izraèunani stolpec' + st2,
-st2 varchar(30) default ('Moj stolpec'),
-st3 rowversion,
-st4 varchar(40) null
+ st2 varchar(30) default ('Moj stolpec'),
+ st3 rowversion,
+ st4 varchar(40) null
 )
 
 select * from dbo.T1
@@ -44,8 +44,8 @@ insert into T1 default values
 
 create table T2
 (id int identity,
-ime nvarchar(50),
-priimek nvarchar(50) unique
+ ime nvarchar(50),
+ priimek nvarchar(50) unique
 )
 
 select * from T2
@@ -63,3 +63,29 @@ st2 uniqueidentifier
 
 insert into T3 values (newid()) --drugaèe se ne da unest
 select * from T3
+
+--VAJE 91
+--ustvarite tabelo z vašim priimkom v PB
+CREATE TABLE Priimek
+(st1 AS 'Computed column ' + st2,
+ st2 varchar(30)
+ DEFAULT ('my column default'),
+ st4 varchar(40) NULL,
+ st5 nchar(5) unique,
+ st6 timestamp
+);
+--1. vstavite vse privzete vrednosti, samo za st5 dajte vrednost 'AAAAA'
+insert into Priimek (st5) values ('AAAAAA')
+--2. kaj je narobe s stavkom, popravite vse tri napake napaki
+insert into Priimek(st2,st4,st5) values ('a','b','c')
+select * from Priimek
+--izbiršite tabelo in naredite novo
+drop table Priimek;
+CREATE TABLE Priimek
+(st1 int IDENTITY,
+ st2 VARCHAR(30),
+ st3 uniqueidentifier
+);
+--3. vstavite 1,'Barbara' in vrednost, ki jo lahko priredite unique identifierju
+insert into Priimek values ('Debevec', NEWID())
+--4.preskoèite sedaj zaporedno številko 2 in dodajte zapis z zaporedno številko 5set identity_insert Priimek oninsert into Priimek (st1, st2, st3)values (5, 'Debevec', NEWID())select * from Priimek
