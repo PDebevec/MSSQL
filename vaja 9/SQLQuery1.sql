@@ -29,7 +29,7 @@ values (2346, 'Marija', 'Novak', 'Gospa', 1)
 
 select * from dbo.MyEmployees
 
---poseben vrednosti izpeljani atributi --compute, default, rowversions
+--poseben vrednosti izpeljani atributi --compute, default, rowversion
 create table T1
 ( st1 as 'izraèunani stolpec' + st2,
  st2 varchar(30) default ('Moj stolpec'),
@@ -88,4 +88,4 @@ CREATE TABLE Priimek
 );
 --3. vstavite 1,'Barbara' in vrednost, ki jo lahko priredite unique identifierju
 insert into Priimek values ('Debevec', NEWID())
---4.preskoèite sedaj zaporedno številko 2 in dodajte zapis z zaporedno številko 5set identity_insert Priimek oninsert into Priimek (st1, st2, st3)values (5, 'Debevec', NEWID())select * from Priimek
+--4.preskoèite sedaj zaporedno številko 2 in dodajte zapis z zaporedno številko 5set identity_insert Priimek oninsert into Priimek (st1, st2, st3)values (5, 'Debevec', NEWID())select * from Priimek
