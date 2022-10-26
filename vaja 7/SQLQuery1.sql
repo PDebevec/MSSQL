@@ -3,9 +3,9 @@ create view Produkti as
 select * from SalesLT.Product
 
 --deklaracija spemenljick
-declare @mojötevec int
-declare @piimek nvarchar(30), @ime nvarchar(30), @podroËje nvarchar(2)
-set @mojötevec = 1
+declare @moj≈°tevec int
+declare @piimek nvarchar(30), @ime nvarchar(30), @podro√®je nvarchar(2)
+set @moj≈°tevec = 1
 
 declare @cime nvarchar(50)
 set @cime = N'Amy'
@@ -18,14 +18,14 @@ insert into @varprodukti
 select ProductID, Name from SalesLT.Product
 select * from @varprodukti
 
---zaËasna tablea
+--za√®asna tablea
 create table #tempp
 (produktid int, imepordukta varchar(50))
 insert into #tempp
 select ProductID, Name from SalesLT.Product
 select * from #tempp
 
---zaËasna globalna tabela
+--za√®asna globalna tabela
 create table ##tempp1
 (produktid int, imepordukta varchar(50))
 insert into ##tempp1
@@ -33,7 +33,7 @@ select ProductID, Name from SalesLT.Product
 select * from ##tempp1
 
 --izpeljana tabela
---izpiöi ötevilo aktivnih strank zbrano po letih
+--izpi≈°i ≈°tevilo aktivnih strank zbrano po letih
 select count(CustomerID), YEAR(OrderDate) as leto from SalesLT.SalesOrderHeader
 group by YEAR(OrderDate) --ne dela prou s samo OrderDate
 
@@ -47,7 +47,7 @@ select leto, COUNT(stranka) from
 group by leto;
 
 --cte common table expression
---uporabna samo za en sql stavek (veË ne dela)
+--uporabna samo za en sql stavek (ve√® ne dela)
 with ctepoletih (leto, stranka)
 as (select YEAR(OrderDate), CustomerID from SalesLT.SalesOrderHeader)
 select leto, COUNT(stranka) from ctepoletih group by leto
