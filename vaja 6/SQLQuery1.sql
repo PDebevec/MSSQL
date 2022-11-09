@@ -1,9 +1,14 @@
 --5. Napišite poizvedbo, ki vrne seznam imen podjetji in njihovo mesto v rangu, èe jih rangirate
 --glede na najvišjo vrednost atributa TotalDue iz tabele SalesOrderHeader.
-select c.FirstName, rank() over (order by TotalDue) as TotalDue from SalesLT.SalesOrderHeader h join SalesLT.Customer c on h.CustomerID = c.CustomerID
+select c.FirstName, rank() over (order by TotalDue) as TotalDue
+from SalesLT.SalesOrderHeader h join SalesLT.Customer c
+on h.CustomerID = c.CustomerID
+
 --6. Napišite poizvedbo, ki izpiše imena produktov in skupno vsoto izraèunano kot vsoto atributa
 --LineTotal iz SalesOrderDetail tabele. Rezultat naj bo urejen po padajoèi vrednosti skupne vsote.
-select p.Name, SUM(d.LineTotal) from SalesLT.SalesOrderDetail d join SalesLT.Product p on p.ProductID = d.ProductID group by p.Name
+select p.Name, SUM(d.LineTotal)
+from SalesLT.SalesOrderDetail d join SalesLT.Product p
+on p.ProductID = d.ProductID group by p.Name
 --7. Spremenite prejšnjo poizvedbo tako, da vkljuèuje samo tiste produkte, ki imajo atribut
 --ListPrice veè kot 1000$.
 select p.Name, SUM(d.LineTotal) as sumLineTotal from SalesLT.SalesOrderDetail d join SalesLT.Product p on p.ProductID = d.ProductID
@@ -13,6 +18,7 @@ group by p.Name
 --prodaje veèjo kot 20.000$.
 select p.Name, SUM(d.LineTotal) from SalesLT.SalesOrderDetail d join SalesLT.Product p on p.ProductID = d.ProductID
 group by p.Name having SUM(d.LineTotal) > 20000
+--having se uporablja pri group by in samo za group by
 
 --Podpoizvedbe
 --iz soh izpiši id naroèila, datum naroèila in najvišja cena na tem naroèilu
@@ -75,7 +81,8 @@ select p.ProductID, AVG(d.UnitPrice) from SalesLT.Product p
 join SalesLT.SalesOrderDetail d on p.ProductID = d.ProductID
 group by p.ProductID
 --4. Filtriraj prejšnjo poizvedbo, da bo vsebovala samo produkte, kjer je cena proizvodnje (cost
---price) veèja od povpreène prodajne cene.select p.ProductID, AVG(d.UnitPrice), p.ListPrice from SalesLT.Product p
+--price) veèja od povpreène prodajne cene.
+select p.ProductID, AVG(d.UnitPrice), p.ListPrice from SalesLT.Product p
 join SalesLT.SalesOrderDetail d on p.ProductID = d.ProductID
 where p.StandardCost > AVG(d.UnitPrice)
 group by p.ProductID

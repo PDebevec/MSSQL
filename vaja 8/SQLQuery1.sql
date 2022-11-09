@@ -10,7 +10,6 @@ from dbo.MyEmployees e join DirectReport d on e.ManagerID = d.EmployeeID
 select * from DirectReport
 --v uèilnici je bulše napisano
 
---
 --1. Izdelaj poizvedbo, ki bo vsebovala Id produkta, ime produkta in povzetek produkta (Summary) iz
 --SalesLT.Product tabele in SalesLT.vProductModelCatalogDescription pogleda.
 select p.ProductID, p.Name, d.Summary from SalesLT.Product p join SalesLT.vProductModelCatalogDescription d on p.ProductModelID = d.ProductModelID

@@ -7,6 +7,6 @@ select CONVERT(varchar(5), AddressID) + ':' + AddressLine1 as naslov from SalesL
 select Name, CONVERT(nvarchar(30), [SellStartDate]) as zaèetek,
 convert(nvarchar(30), [SellEndDate], 126) as ISOformat
 from SalesLT.Product
---uporaba isnull
+--uporaba isnull (l, r) vrne r ?e je l null druga?e vrne l
 select Name, ISNULL(convert(varchar(30), SellEndDate), 'v prodaji') as datum
 from SalesLT.Product

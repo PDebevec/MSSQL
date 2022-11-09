@@ -2,8 +2,9 @@
 --cast(datum as nvarcahr(25))
 
 select isnull(Color, 'ni barve') from SalesLT.Product
+-- (l, r) ?e je l == r return null else return l
 select nullif(Color, 'Black') from SalesLT.Product
---zadnji stolpec bo barve, èe je != null, sincer bo veliko èe != null, sincer bo 48
+-- (v1, v2, v3, ...) returns first value that is not null
 select name, Color, Size, coalesce(Color, isnull(size, 48)) from SalesLT.Product
 select name, Color, Size, coalesce(Color, size, '48') from SalesLT.Product --48 more bit v '' v tem primeru
 --poraba case
@@ -12,7 +13,7 @@ case --lahko dodamo Size in ga odstranimo spodi |when 'l' than 'large'
 	when Size='L' then 'Large'
 	when Size='M' then 'Medium'
 	when Size='S' then 'Small'
-	else isnull(size, 'n/a')
+	else isnull(size, 'n/a') --default?
 	end, Size
 from SalesLT.Product
 
@@ -51,7 +52,7 @@ select CustomerID, isnull(c.EmailAddress, c.Phone) as PrimarniKontakt from Sales
 --dobave. Èe želiš preveriti, ali poizvedba deluje pravilno, predhodno izvedi stavek
 select s.SalesOrderID, s.OrderDate,
 case 
-	when s.ShipDate is null then 'èaka' --ne vem kdu se je sponu da ne bo delalu is null èe prej napisme value katerega gledam --za se jokat
+	when s.ShipDate is null then 'caka' --ne vem kdu se je sponu da ne bo delalu is null ce prej napisem value katerega gledam --za se jokat
 	else 'Dostavljeno'
 	end as StatusDobave
 from SalesLT.SalesOrderHeader s

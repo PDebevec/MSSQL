@@ -9,7 +9,7 @@ set Bonus = 6000,CommissionPct = 0.1, SalesQuota = null
 
 update Production.Product
 set Color = 'Metallic Red' where Color = 'Red' and Name like 'Road-250%'
-select Name, Color from Production.Product
+	select Name, Color from Production.Product
 
 select * from Production.BillOfMaterials
 where ProductAssemblyID = 800

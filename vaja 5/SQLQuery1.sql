@@ -18,6 +18,12 @@ select p.ProductNumber, Name, p.ListPrice from SalesLT.Product p where ProductNu
 --inner join
 --ANSI 92
 --select from -> join -> where -> group by -> having ...
+-- 1. FROM
+-- 2. WHERE
+-- 3. GROUP BY
+-- 4. HAVING
+-- 5. SELECT
+-- 6. ORDER BY
 select p.Name as Ime, c.Name as Katerorija from SalesLT.Product p
 join SalesLT.ProductCategory c on c.ProductCategoryID = p.ProductCategoryID
 
@@ -33,6 +39,9 @@ left join SalesLT.SalesOrderHeader h on c.CustomerID = h.CustomerID
 --izpiši vsa naroèila katera nimajo stranke
 select c.FirstName, c.LastName, h.SalesOrderNumber from SalesLT.Customer c
 right join SalesLT.SalesOrderHeader h on c.CustomerID = h.CustomerID
+--join sam ne bo zdruzil podatke kateri so null tako da je treba probat se left ali right join
+--left je za null values v levi tabeli
+--right je za null values v desni tabeli
 
 --imena strank, številke naroèil pri tem vse stranke tudi tiste brez naroèil in vsa naroèila tudi brez strank
 select c.FirstName, c.LastName, h.SalesOrderNumber from SalesLT.Customer c

@@ -1,6 +1,8 @@
 --pogledi view DDL
 create view Produkti as
 select * from SalesLT.Product
+go --go se uporablja ce ksna stvar gori krka ksno stvar doli
+--drugace je za splitat kodo
 
 --deklaracija spemenljick
 declare @mojštevec int
@@ -14,18 +16,20 @@ select LastName, FirstName from SalesLT.Customer where FirstName = @cime
 --tabela kot spemenljivka
 declare @varprodukti as table
 (productid int, imeprodukta varchar(50))
+
 insert into @varprodukti
 select ProductID, Name from SalesLT.Product
+
 select * from @varprodukti
 
---zaèasna tablea
+--zaèasna tablea s #
 create table #tempp
 (produktid int, imepordukta varchar(50))
 insert into #tempp
 select ProductID, Name from SalesLT.Product
 select * from #tempp
 
---zaèasna globalna tabela
+--zaèasna globalna tabela s ##
 create table ##tempp1
 (produktid int, imepordukta varchar(50))
 insert into ##tempp1
@@ -36,6 +40,7 @@ select * from ##tempp1
 --izpiši število aktivnih strank zbrano po letih
 select count(CustomerID), YEAR(OrderDate) as leto from SalesLT.SalesOrderHeader
 group by YEAR(OrderDate) --ne dela prou s samo OrderDate
+--year vrne sam letnico
 
 select leto, COUNT(stranka) from 
 (select YEAR(OrderDate) as leto, CustomerID as stranka from SalesLT.SalesOrderHeader) as Poletih
