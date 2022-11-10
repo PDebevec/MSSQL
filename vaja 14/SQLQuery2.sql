@@ -47,4 +47,7 @@ as (
 select * from cteTabela
 --8. Izpiši koliko je produktov v posamezni kategoriji, v okviru kategorije pa še v starševski
 --kategoriji in vseh artiklov skupaj. ( pomagaj si z nalogo 4., v kategoriji Bikes je tako 97
---artiklov, v Accessories 33,…, vseh skupaj je 299)
+--artiklov, v Accessories 33,…, vseh skupaj je 299)select c.ParentProductCategoryName, count(c.ParentProductCategoryName) as CatagorySkpaj
+from SalesLT.Product p join SalesLT.vGetAllCategories c
+on p.ProductCategoryID = c.ProductCategoryIDgroup by c.ParentProductCategoryNameunion allselect 'Skupaj', count(c.ParentProductCategoryName) as CatagorySkpajfrom SalesLT.Product p join SalesLT.vGetAllCategories c
+on p.ProductCategoryID = c.ProductCategoryID
