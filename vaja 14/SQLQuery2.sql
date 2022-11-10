@@ -20,9 +20,9 @@ on p.ProductCategoryID = c.ProductCategoryID
 --podkategorijah (ProductCategoryName). Znaèilno je, da imajo glavne kategorije vrednost
 --ParentProductCategoryID enako NULL. Napiši poizvedbo, ki vraèa ParentProductCategoryID,
 --ProductCategoryID in Name iz tabele SalesLT.ProductCategory. Rezultat je oblike (ni v celoti)
-select c.ParentProductCategoryID, c.ProductCategoryID, c.Name
-from SalesLT.ProductCategory c join SalesLT.ProductCategory cc
-on c.ParentProductCategoryID = cc.ProductCategoryID
+select cc.Name, c.ProductCategoryID, c.Name
+from SalesLT.ProductCategory c left join SalesLT.ProductCategory cc
+on c.ProductCategoryID = cc.ParentProductCategoryID
 --6. Izpišite imena (Name) in povpreène cene (UnitPrice) produkta iz tabele
 --SalesLT.SalesOrderDetail, v izpisu naj bo tudi rang artikla od tistega z najvišjo povpreèno
 --ceno, do tistega z najnižjo povpreèno ceno.
@@ -37,17 +37,15 @@ order by avg(d.UnitPrice) desc
 --sumiraš podatke.
 select * from SalesLT.Customer
 go
-with cteTabela (companyName, customerName, totalDue)
+with cteTabela (totalDue, companyName)
 as (
-	select c.CompanyName, (c.Title+' '+c.FirstName+' '+c.LastName+' '+c.Suffix), h.TotalDue
+	select h.TotalDue, c.CompanyName
 	from SalesLT.Customer c join SalesLT.SalesOrderHeader h
 	on c.CustomerID = h.CustomerID
-	where c.LastName is not null
 )
 select * from cteTabela
 --8. Izpiši koliko je produktov v posamezni kategoriji, v okviru kategorije pa še v starševski
 --kategoriji in vseh artiklov skupaj. ( pomagaj si z nalogo 4., v kategoriji Bikes je tako 97
---artiklov, v Accessories 33,…, vseh skupaj je 299)select c.ParentProductCategoryName, count(c.ParentProductCategoryName) as CatagorySkpaj
+--artiklov, v Accessories 33,…, vseh skupaj je 299)select c.ParentProductCategoryName, c.ProductCategoryName, count(p.Name) as CatagorySkpaj
 from SalesLT.Product p join SalesLT.vGetAllCategories c
-on p.ProductCategoryID = c.ProductCategoryIDgroup by c.ParentProductCategoryNameunion allselect 'Skupaj', count(c.ParentProductCategoryName) as CatagorySkpajfrom SalesLT.Product p join SalesLT.vGetAllCategories c
-on p.ProductCategoryID = c.ProductCategoryID
+on p.ProductCategoryID = c.ProductCategoryIDgroup by rollup (c.ParentProductCategoryName, c.ProductCategoryName)order by c.ParentProductCategoryName
