@@ -88,4 +88,10 @@ CREATE TABLE Priimek
 );
 --3. vstavite 1,'Barbara' in vrednost, ki jo lahko priredite unique identifierju
 insert into Priimek values ('Debevec', NEWID())
---4.preskoèite sedaj zaporedno številko 2 in dodajte zapis z zaporedno številko 5set identity_insert Priimek oninsert into Priimek (st1, st2, st3)values (5, 'Debevec', NEWID())select * from Priimek
+--4.preskoèite sedaj zaporedno številko 2 in dodajte zapis z zaporedno številko 5
+set identity_insert Priimek on
+insert into Priimek (st1, st2, st3)
+values (5, 'Debevec', NEWID())
+
+select * from Priimek
+

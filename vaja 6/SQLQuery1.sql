@@ -1,6 +1,6 @@
 --5. Napišite poizvedbo, ki vrne seznam imen podjetji in njihovo mesto v rangu, èe jih rangirate
 --glede na najvišjo vrednost atributa TotalDue iz tabele SalesOrderHeader.
-select c.FirstName, rank() over (order by TotalDue) as TotalDue
+select c.FirstName, rank() over(order by TotalDue) as TotalDue
 from SalesLT.SalesOrderHeader h join SalesLT.Customer c
 on h.CustomerID = c.CustomerID
 
@@ -11,12 +11,15 @@ from SalesLT.SalesOrderDetail d join SalesLT.Product p
 on p.ProductID = d.ProductID group by p.Name
 --7. Spremenite prejšnjo poizvedbo tako, da vkljuèuje samo tiste produkte, ki imajo atribut
 --ListPrice veè kot 1000$.
-select p.Name, SUM(d.LineTotal) as sumLineTotal from SalesLT.SalesOrderDetail d join SalesLT.Product p on p.ProductID = d.ProductID
+select p.Name, SUM(d.LineTotal) as sumLineTotal
+from SalesLT.SalesOrderDetail d join SalesLT.Product p
+on p.ProductID = d.ProductID
 where p.ListPrice > 1000
 group by p.Name
 --8. Spremenite prejšnjo poizvedbo, da bo vsebovala samo skupine, ki imajo skupno vrednost
 --prodaje veèjo kot 20.000$.
-select p.Name, SUM(d.LineTotal) from SalesLT.SalesOrderDetail d join SalesLT.Product p on p.ProductID = d.ProductID
+select p.Name, SUM(d.LineTotal) from SalesLT.SalesOrderDetail d
+join SalesLT.Product p on p.ProductID = d.ProductID
 group by p.Name having SUM(d.LineTotal) > 20000
 --having se uporablja pri group by in samo za group by
 
@@ -36,15 +39,19 @@ select ListPrice from SalesLT.Product where name = 'Touring Tire Tube'
 select name from SalesLT.Product
 where ListPrice = (select ListPrice from SalesLT.Product where name = 'Touring Tire Tube')
 --isto z join
-select p.ListPrice from SalesLT.Product p join SalesLT.Product pr on p.ListPrice = pr.ListPrice where pr.Name = 'Touring Tire Tube'
+select p.ListPrice from SalesLT.Product p
+join SalesLT.Product pr on p.ListPrice = pr.ListPrice
+where pr.Name = 'Touring Tire Tube'
 
 --operator in, not in, any, all, exists
 --izpiši vsa imena produktov v kategoriji 'Wheels'
 select p.Name from SalesLT.Product p
-where p.ProductCategoryID in (select ProductCategoryID from SalesLT.ProductCategory where Name = 'Wheels')
+where p.ProductCategoryID in (select ProductCategoryID
+from SalesLT.ProductCategory where Name = 'Wheels')
 --not in 'Wheels'
 select p.Name from SalesLT.Product p
-where p.ProductCategoryID not in (select ProductCategoryID from SalesLT.ProductCategory where Name = 'Wheels')
+where p.ProductCategoryID not in (select ProductCategoryID
+from SalesLT.ProductCategory where Name = 'Wheels')
 
 --izeri imena produktov kjer je cena veèja od minimalne cene v kategoriji 14
 select Name from SalesLT.Product where ListPrice >= (

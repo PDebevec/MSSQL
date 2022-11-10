@@ -32,7 +32,8 @@ where ProductCategoryID = (
 
 --4. Nastavi DiscountinueDate za vse produkte iz tabele SalesLT.Product v kategoriji luèi (ID
 --kategorije je 37) na današnji datum, razen za luè, ki si jo dodal v toèki ena.
-update SalesLT.Product set DiscontinuedDate = GETDATE() where ProductCategoryID = 37 and ProductNumber != 'LT-123'
+update SalesLT.Product set DiscontinuedDate = GETDATE()
+where ProductCategoryID = 37 and ProductNumber != 'LT-123'
 
 --5. Izbriši produkte iz tabele SalesLT.Product v kategoriji »Bells and Horns«, nato pa izbriši tudi
 --kategorijo »Bells and Horns« v tabeli SalesLT.ProductCategory

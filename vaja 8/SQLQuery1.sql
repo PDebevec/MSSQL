@@ -12,7 +12,9 @@ select * from DirectReport
 
 --1. Izdelaj poizvedbo, ki bo vsebovala Id produkta, ime produkta in povzetek produkta (Summary) iz
 --SalesLT.Product tabele in SalesLT.vProductModelCatalogDescription pogleda.
-select p.ProductID, p.Name, d.Summary from SalesLT.Product p join SalesLT.vProductModelCatalogDescription d on p.ProductModelID = d.ProductModelID
+select p.ProductID, p.Name, d.Summary
+from SalesLT.Product p join SalesLT.vProductModelCatalogDescription d
+on p.ProductModelID = d.ProductModelID
 --2. Izdelaj tabelarièno spremenljivko in jo napolni s seznamom razliènih barv iz tabele SalesLT.Product.
 --Nato uporabi spremenljivko kot filter poizvedbe, ki vraèa ID produkta, ime, barvo iz tabele
 --SalesLT.Product in samo tiste izdelke, ki imajo barvo v zgoraj definirani zaèasni tabeli (rezultat
